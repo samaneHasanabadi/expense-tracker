@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: expense-tracker
+cache:
+  type: simple
+  datasource:
+    url: jdbc:h2:mem:expense-trackerDB
+    username: root
+    password: 123
+    driverClassName: org.h2.Driver
+  jpa:
+    open-in-view: true
+    show-sql: true
+    properties:
+      format_sql: true
+      use_sql_comments: true
+      use_minimum_puts: false
+      use_second_level_cache: false
+      use_query_cache: false
+      cache_region_factory: org.hibernate.cache.internal.NoCachingRegionFactory
+    hibernate:
+      ddl-auto: create-drop
+  data:
+    redis:
+      host: localhost
+      port: 6379
+
+server:
+  shutdown: immediate
+  port: 8080
+  servlet:
+    context-path: /api/v1/
