@@ -23,6 +23,13 @@ public class CreateExpenseCommandHandler {
 
     @Transactional
     public void handle(CreateExpenseCommand command) throws AccessDeniedException {
+        if (command.amount() <= 0) {
+            throw new IllegalArgumentException("Expense amount must be greater than zero");
+        }
+        if (command.title() == null || command.title().trim().isEmpty()) {
+            throw new IllegalArgumentException("Expense title cannot be empty");
+        }
+        
         Expense expense = new Expense();
         expense.setTitle(command.title());
         expense.setAmount(command.amount());

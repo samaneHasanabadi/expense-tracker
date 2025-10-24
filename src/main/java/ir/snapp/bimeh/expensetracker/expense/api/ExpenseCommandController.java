@@ -4,6 +4,7 @@ import ir.snapp.bimeh.expensetracker.expense.api.resources.CreateExpenseRequest;
 import ir.snapp.bimeh.expensetracker.expense.application.command.CreateExpenseCommand;
 import ir.snapp.bimeh.expensetracker.expense.application.command.handler.CreateExpenseCommandHandler;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class ExpenseCommandController {
     private final CreateExpenseCommandHandler createExpenseCommandHandler;
 
     @PostMapping("/add")
-    public ResponseEntity<String> addExpense(@RequestBody CreateExpenseRequest request, Principal principal, HttpServletRequest req) throws AccessDeniedException {
+    public ResponseEntity<String> addExpense(@Valid @RequestBody CreateExpenseRequest request, Principal principal, HttpServletRequest req) throws AccessDeniedException {
         CreateExpenseCommand command = conversionService.convert(request, CreateExpenseCommand.class);
         createExpenseCommandHandler.handle(command);
         return ResponseEntity.status(HttpStatus.CREATED).body("Expense is added successfully!");

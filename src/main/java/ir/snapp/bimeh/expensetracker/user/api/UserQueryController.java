@@ -1,7 +1,7 @@
 package ir.snapp.bimeh.expensetracker.user.api;
 
 import ir.snapp.bimeh.expensetracker.user.api.resources.LoginUserRequest;
-import ir.snapp.bimeh.expensetracker.user.application.query.LoginUserCommand;
+import ir.snapp.bimeh.expensetracker.user.application.query.LoginUserQuery;
 import ir.snapp.bimeh.expensetracker.user.application.query.handler.LoginUserHandler;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -25,7 +25,7 @@ public class UserQueryController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginUserRequest request, HttpServletRequest req) {
-        LoginUserCommand convert = conversionService.convert(request, LoginUserCommand.class);
+        LoginUserQuery convert = conversionService.convert(request, LoginUserQuery.class);
         loginUserHandler.handle(convert);
         
         var session = req.getSession(true);
