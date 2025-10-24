@@ -24,6 +24,7 @@ public class Expense extends BaseEntity {
     @JoinColumn(name= "ownerId", nullable = false)
     private User owner;
     @ManyToOne
+    @JoinColumn(name= "categoryId")
     private Category category;
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;

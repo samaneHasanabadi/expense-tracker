@@ -29,34 +29,33 @@ public class UpdateExpenseCommandHandler {
         Expense expense = expenseRepository.findById(expenseId)
                 .orElseThrow(() -> new ExpenseNotFoundException(expenseId));
         User currentUser = authenticatedUserProvider.getCurrentUser();
-        if (!expense.getOwner().getId().equals(currentUser.getId())) {
+        if (!expense.getOwner().getId().equals(currentUser.getId()))
             throw new UnauthorizedExpenseAccessException(expenseId);
-        }
-        if (command.amount() != null && command.amount() <= 0) {
+
+        if (command.amount() != null && command.amount() <= 0)
             throw new IllegalArgumentException("Expense amount must be greater than zero");
-        }
-        if (command.title() != null && command.title().trim().isEmpty()) {
+
+        if (command.title() != null && command.title().trim().isEmpty())
             throw new IllegalArgumentException("Expense title cannot be empty");
-        }
-        if (command.title() != null) {
+
+        if (command.title() != null)
             expense.setTitle(command.title());
-        }
-        if (command.amount() != null) {
+
+        if (command.amount() != null)
             expense.setAmount(command.amount());
-        }
-        if (command.issuedDate() != null) {
+
+        if (command.issuedDate() != null)
             expense.setIssuedDate(command.issuedDate());
-        }
-        if (command.paymentMethod() != null) {
+
+        if (command.paymentMethod() != null)
             expense.setPaymentMethod(PaymentMethod.valueOf(command.paymentMethod()));
-        }
-        if (command.description() != null) {
+
+        if (command.description() != null)
             expense.setDescription(command.description());
-        }
-        if (command.categoryId() != null) {
+
+        if (command.categoryId() != null)
             expense.setCategory(categoryRepository.findById(command.categoryId())
                     .orElseThrow(() -> new CategoryNotFoundException(command.categoryId())));
-        }
         expenseRepository.save(expense);
     }
 }
