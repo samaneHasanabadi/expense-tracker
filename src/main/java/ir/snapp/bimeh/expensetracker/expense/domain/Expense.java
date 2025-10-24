@@ -4,11 +4,13 @@ import ir.snapp.bimeh.expensetracker.category.domain.Category;
 import ir.snapp.bimeh.expensetracker.common.domain.BaseEntity;
 import ir.snapp.bimeh.expensetracker.user.domain.User;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Date;
 
-@Data
+@Getter
+@Setter
 @Entity
 @Table
 public class Expense extends BaseEntity {

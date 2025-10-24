@@ -3,12 +3,12 @@ package ir.snapp.bimeh.expensetracker.category.domain;
 import ir.snapp.bimeh.expensetracker.common.domain.BaseEntity;
 import ir.snapp.bimeh.expensetracker.user.domain.User;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
+@Getter
 @Table
 @Entity
 public class Category extends BaseEntity {
