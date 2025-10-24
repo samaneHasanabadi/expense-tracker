@@ -20,7 +20,7 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth ->
-                        auth.requestMatchers( "/user/**", "/h2-console/**").permitAll().anyRequest().authenticated())
+                        auth.requestMatchers( "/api/user/**", "/h2-console/**").permitAll().anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable).httpBasic(AbstractHttpConfigurer::disable).build();
 

@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 @RequiredArgsConstructor
 public class UserCommandController {
 
     private final RegisterUserHandler registerUserHandler;
     private final ConversionService conversionService;
 
-    @PostMapping("/api/register")
+    @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterUserRequest request) {
         RegisterUserCommand convert = conversionService.convert(request, RegisterUserCommand.class);
         registerUserHandler.handle(convert);
