@@ -34,4 +34,17 @@ public class CategoryTemplate extends BaseEntity {
         if (parent != null && (type == null || type.equals(CategoryType.OTHER)))
             type = parent.getType();
     }
+
+    public boolean matchesTypeInHierarchy(String type) {
+        if (this.type.name().equalsIgnoreCase(type))
+            return true;
+
+        CategoryTemplate parent = this.parent;
+        while (parent != null) {
+            if (parent.getType().name().equalsIgnoreCase(type))
+                return true;
+            parent = parent.getParent();
+        }
+        return false;
+    }
 }

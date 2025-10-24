@@ -1,5 +1,6 @@
 package ir.snapp.bimeh.expensetracker.category.domain;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CategoryTemplateRepository {
@@ -7,4 +8,6 @@ public interface CategoryTemplateRepository {
     Optional<CategoryTemplate> findByName(String name);
     CategoryTemplate save(CategoryTemplate categoryTemplate);
     long count();
+
+    List<CategoryTemplate> findAll();
 }

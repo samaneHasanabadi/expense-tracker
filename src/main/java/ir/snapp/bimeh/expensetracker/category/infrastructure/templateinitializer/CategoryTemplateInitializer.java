@@ -26,7 +26,12 @@ public class CategoryTemplateInitializer implements CommandLineRunner {
                     new CategoryTemplate("Utilities", CategoryType.UTILITIES, null),
                     new CategoryTemplate("Entertainment", CategoryType.ENTERTAINMENT, null),
                     new CategoryTemplate("Rent", CategoryType.RENT, null),
-                    new CategoryTemplate("Other", CategoryType.OTHER, null),
+                    new CategoryTemplate("Other", CategoryType.OTHER, null)
+            ).forEach(c -> {
+                c.assignTypeFromParent();
+                repository.save(c);
+            });
+            List.of(
                     new CategoryTemplate("Coffee", CategoryType.COFFEE, repository.findByName("Food").orElse(null)),
                     new CategoryTemplate("Travel", CategoryType.TRAVEL, repository.findByName("Entertainment").orElse(null))
             ).forEach(c -> {
