@@ -3,6 +3,7 @@ package ir.snapp.bimeh.expensetracker.user.application.command.handler;
 import ir.snapp.bimeh.expensetracker.user.application.command.RegisterUserCommand;
 import ir.snapp.bimeh.expensetracker.user.domain.User;
 import ir.snapp.bimeh.expensetracker.user.domain.UserRepository;
+import ir.snapp.bimeh.expensetracker.common.exception.UsernameAlreadyExistsException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,7 +19,7 @@ public class RegisterUserHandler {
     @Transactional
     public void handle(RegisterUserCommand command) {
         if (userRepository.findByUsername(command.username()).isPresent())
-            throw new RuntimeException("Username is already used, pick another one");
+            throw new UsernameAlreadyExistsException(command.username());
 
         User user = new User(command.name(), command.username(), passwordEncoder.encode(command.password()), command.email());
         userRepository.save(user);

@@ -13,13 +13,13 @@ public record CreateExpenseCommand (
 
     @NotBlank String title,
     @NotNull
-    @Positive
+    @Positive(message = "Amount must be greater than zero")
     Double amount,
     @NotNull
     Date issuedDate,
 
     Long categoryId,
-    @Pattern(regexp = "CARD|CACHE|TRANSFER|OTHER", message = "payment method must be one of : CARD, CACHE, TRANSFER, OTHER")
+    @Pattern(regexp = "CARD|CACHE|TRANSFER|OTHER", message = "Payment method must be one of : CARD, CACHE, TRANSFER, OTHER")
     String paymentMethod,
     String description
 ){}

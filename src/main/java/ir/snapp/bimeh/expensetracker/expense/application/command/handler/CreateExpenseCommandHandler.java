@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import ir.snapp.bimeh.expensetracker.common.exception.CategoryNotFoundException;
 import java.nio.file.AccessDeniedException;
 
 @Service
@@ -31,7 +32,7 @@ public class CreateExpenseCommandHandler {
             expense.setPaymentMethod(PaymentMethod.valueOf(command.paymentMethod()));
         expense.setDescription(command.description());
         if (command.categoryId() != null)
-            expense.setCategory(categoryRepository.findById(command.categoryId()).orElseThrow(() -> new RuntimeException("category not found with id " + command.categoryId())));
+            expense.setCategory(categoryRepository.findById(command.categoryId()).orElseThrow(() -> new CategoryNotFoundException(command.categoryId())));
 
         expenseRepository.save(expense);
     }
