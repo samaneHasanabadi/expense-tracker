@@ -27,4 +27,11 @@ public class Category extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private CategoryType type;
     private String description;
+
+    public void assignTemplateFromParent() {
+        if (parent != null && (template == null || template.getType().equals(CategoryType.OTHER))) {
+            template = parent.getTemplate();
+            type = parent.getTemplate().getType();
+        }
+    }
 }
