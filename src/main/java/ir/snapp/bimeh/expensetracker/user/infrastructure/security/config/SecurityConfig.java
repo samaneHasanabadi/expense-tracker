@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -22,12 +23,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth ->
-                        auth.requestMatchers( "/api/user/**", "/h2-console/**").permitAll().anyRequest().authenticated())
+                        auth.requestMatchers("/api/user/register", "/api/user/login", "/h2-console/**").permitAll()
+                                .requestMatchers("/api/expense/**").authenticated()
+                                .requestMatchers("/api/user/logout").authenticated()
+                                .anyRequest().authenticated())
                 .csrf(AbstractHttpConfigurer::disable)
-                .logout(logout -> logout.logoutUrl("/api/user/logout").permitAll()
+                .logout(logout -> logout.logoutUrl("/api/user/logout")
                         .addLogoutHandler((req, res, auth) -> SecurityContextHolder.clearContext())
                         .logoutSuccessHandler((req, res, auth) -> res.setStatus(HttpServletResponse.SC_OK)))
-
+                .sessionManagement(session -> session.maximumSessions(1).maxSessionsPreventsLogin(false))
+                .securityContext(securityContext -> securityContext.securityContextRepository(new HttpSessionSecurityContextRepository()))
                 .formLogin(AbstractHttpConfigurer::disable).httpBasic(AbstractHttpConfigurer::disable).build();
 
     }
