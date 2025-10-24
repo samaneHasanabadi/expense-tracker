@@ -19,7 +19,7 @@ public class Expense extends BaseEntity {
     @Column(nullable = false)
     private Date issuedDate;
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(name= "ownerId", nullable = false)
     private User owner;
     @ManyToOne
     private Category category;

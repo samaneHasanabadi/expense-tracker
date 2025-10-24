@@ -16,7 +16,7 @@ public class Category extends BaseEntity {
     @Column(nullable = false)
     private String name;
     @ManyToOne
-    @Column(nullable = false)
+    @JoinColumn(nullable = false)
     private User user;
     @ManyToOne
     private CategoryTemplate template;
