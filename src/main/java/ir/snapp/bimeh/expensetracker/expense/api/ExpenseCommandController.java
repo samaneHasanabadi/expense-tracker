@@ -5,6 +5,7 @@ import ir.snapp.bimeh.expensetracker.expense.api.resources.UpdateExpenseRequest;
 import ir.snapp.bimeh.expensetracker.expense.application.command.CreateExpenseCommand;
 import ir.snapp.bimeh.expensetracker.expense.application.command.UpdateExpenseCommand;
 import ir.snapp.bimeh.expensetracker.expense.application.command.handler.CreateExpenseCommandHandler;
+import ir.snapp.bimeh.expensetracker.expense.application.command.handler.DeleteExpenseCommandHandler;
 import ir.snapp.bimeh.expensetracker.expense.application.command.handler.UpdateExpenseCommandHandler;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class ExpenseCommandController {
     private final ConversionService conversionService;
     private final CreateExpenseCommandHandler createExpenseCommandHandler;
     private final UpdateExpenseCommandHandler updateExpenseCommandHandler;
+    private final DeleteExpenseCommandHandler deleteExpenseCommandHandler;
 
     @PostMapping("/add")
     public ResponseEntity<String> addExpense(@Valid @RequestBody CreateExpenseRequest request) throws AccessDeniedException {
@@ -32,9 +34,15 @@ public class ExpenseCommandController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> addExpense(@PathVariable Long id, @Valid @RequestBody UpdateExpenseRequest request) throws AccessDeniedException {
+    public ResponseEntity<String> updateExpense(@PathVariable Long id, @Valid @RequestBody UpdateExpenseRequest request) throws AccessDeniedException {
         UpdateExpenseCommand command = conversionService.convert(request, UpdateExpenseCommand.class);
         updateExpenseCommandHandler.handle(id, command);
         return ResponseEntity.status(HttpStatus.OK).body("Expense is updated successfully!");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteExpense(@PathVariable Long id) throws AccessDeniedException {
+        deleteExpenseCommandHandler.handle(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Expense is deleted successfully!");
     }
 }

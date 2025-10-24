@@ -31,6 +31,6 @@ public class UserQueryController {
         var session = req.getSession(true);
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
         
-        return ResponseEntity.ok().body("Login in successful");
+        return ResponseEntity.ok().body("Login is successful");
     }
 }
