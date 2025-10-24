@@ -13,25 +13,56 @@ import java.util.Set;
 @Entity
 public class Category extends BaseEntity {
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String name;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private CategoryType type;
     @ManyToOne
-    @JoinColumn(nullable = false)
+    @JoinColumn(name = "userId", nullable = false)
     private User user;
     @ManyToOne
+    @JoinColumn(name = "templateId", nullable = false)
     private CategoryTemplate template;
     @ManyToOne
+    @JoinColumn(name = "parentId")
     private Category parent;
+    private String description;
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Category> subCategories = new HashSet<>();
-    @Enumerated(EnumType.STRING)
-    private CategoryType type;
-    private String description;
 
     public void assignTemplateFromParent() {
         if (parent != null && (template == null || template.getType().equals(CategoryType.OTHER))) {
             template = parent.getTemplate();
             type = parent.getTemplate().getType();
         }
+        if (type == null)
+            type = template.getType();
+    }
+
+    public boolean matchesTypeInHierarchy(String type) {
+        if (this.type.name().equalsIgnoreCase(type))
+            return true;
+
+        Category parent = this.parent;
+        while (parent != null) {
+            if (parent.getType().name().equalsIgnoreCase(type))
+                return true;
+            parent = parent.getParent();
+        }
+        return false;
+    }
+
+    public boolean matchesCategoryInHierarchy(Long categoryId) {
+        if (this.getId().equals(categoryId))
+            return true;
+
+        Category parent = this.parent;
+        while (parent != null) {
+            if (parent.getId().equals(categoryId))
+                return true;
+            parent = parent.getParent();
+        }
+        return false;
     }
 }

@@ -17,7 +17,7 @@ public class CategoryTemplate extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false , unique = true)
     private CategoryType type;
     @ManyToOne
     private CategoryTemplate parent;
