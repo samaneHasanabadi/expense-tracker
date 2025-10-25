@@ -11,6 +11,7 @@ public record AlertDTO(
         Double thresholdAmount,
         String message,
         Boolean active,
-        Date lastTriggeredAt
+        Date lastTriggeredAt,
+        String status
 ) {
 }

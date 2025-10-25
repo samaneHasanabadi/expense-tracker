@@ -28,5 +28,7 @@ public class Alert extends BaseEntity {
     @Column(nullable = false)
     private Boolean active;
     private Date lastTriggeredAt;
+    @Column(nullable = false)
+    private AlertStatus status;
 
 }

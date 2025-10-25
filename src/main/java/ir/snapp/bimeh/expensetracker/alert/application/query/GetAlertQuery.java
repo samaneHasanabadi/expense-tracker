@@ -5,6 +5,7 @@ public record GetAlertQuery(
     String categoryType,
     Boolean active,
     Boolean triggered,
+    String status,
     int page,
     int size
 ) {

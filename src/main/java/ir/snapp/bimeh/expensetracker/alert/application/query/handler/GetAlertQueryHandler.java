@@ -29,7 +29,8 @@ public class GetAlertQueryHandler {
                 .filter(a -> query.categoryType() == null || a.getCategory() != null && a.getCategory().matchesTypeInHierarchy(query.categoryType()))
                 .filter(a -> query.active() == null || a.getActive().equals(query.active()))
                 .filter(a -> query.triggered() == null || query.triggered() && a.getLastTriggeredAt() != null || !query.triggered() && a.getLastTriggeredAt() == null)
-                .map(a -> new AlertDTO(a.getId(), a.getUser().getName(), a.getCategory() == null ? null : a.getCategory().getId(), a.getCategory() == null ? null : a.getCategory().getName(), a.getThresholdAmount(), a.getMessage(), a.getActive(), a.getLastTriggeredAt()))
+                .filter(a -> query.status() == null || query.status().equalsIgnoreCase(a.getStatus().name()))
+                .map(a -> new AlertDTO(a.getId(), a.getUser().getName(), a.getCategory() == null ? null : a.getCategory().getId(), a.getCategory() == null ? null : a.getCategory().getName(), a.getThresholdAmount(), a.getMessage(), a.getActive(), a.getLastTriggeredAt(), a.getStatus().name()))
                 .collect(Collectors.toList());
     }
 

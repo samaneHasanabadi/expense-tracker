@@ -25,10 +25,11 @@ public class AlertQueryController {
                                                     @RequestParam(required = false) String categoryType,
                                                     @RequestParam(required = false) Boolean active,
                                                     @RequestParam(required = false) Boolean triggered,
+                                                    @RequestParam(required = false) String status,
                                                     @RequestParam(defaultValue = "0") int page,
                                                     @RequestParam(defaultValue = "10") int size) throws AccessDeniedException {
 
-        GetAlertQuery query = new GetAlertQuery(categoryId, categoryType, active, triggered, page, size);
+        GetAlertQuery query = new GetAlertQuery(categoryId, categoryType, active, triggered, status, page, size);
         List<AlertDTO> budgets = getAlertQueryHandler.handle(query);
 
         return ResponseEntity.ok(budgets);
