@@ -36,6 +36,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
+    @ExceptionHandler(CategoryTemplateNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCategoryNotFoundException(CategoryTemplateNotFoundException ex) {
+        ErrorResponse error = new ErrorResponse(
+                "CATEGORY_TEMPLATE_NOT_FOUND",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
+    }
     @ExceptionHandler(UsernameAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleUsernameAlreadyExistsException(UsernameAlreadyExistsException ex) {
         ErrorResponse error = new ErrorResponse(

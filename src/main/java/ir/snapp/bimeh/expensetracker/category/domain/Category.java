@@ -4,11 +4,13 @@ import ir.snapp.bimeh.expensetracker.common.domain.BaseEntity;
 import ir.snapp.bimeh.expensetracker.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashSet;
 import java.util.Set;
 
 @Getter
+@Setter
 @Table
 @Entity
 public class Category extends BaseEntity {
@@ -19,8 +21,8 @@ public class Category extends BaseEntity {
     @Column(nullable = false)
     private CategoryType type;
     @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
-    private User user;
+    @JoinColumn(name = "ownerId", nullable = false)
+    private User owner;
     @ManyToOne
     @JoinColumn(name = "templateId", nullable = false)
     private CategoryTemplate template;
