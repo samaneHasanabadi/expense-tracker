@@ -1,13 +1,13 @@
 package ir.snapp.bimeh.expensetracker.alert.application.query;
 
 public record GetAlertQuery(
-    Long categoryId,
-    String categoryType,
-    Boolean active,
-    Boolean triggered,
-    String status,
-    int page,
-    int size
+        Long categoryId,
+        String categoryType,
+        Boolean active,
+        Boolean triggered,
+        String status,
+        int page,
+        int size
 ) {
     public GetAlertQuery {
         if (page < 0) page = 0;

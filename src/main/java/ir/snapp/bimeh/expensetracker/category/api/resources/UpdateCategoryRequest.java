@@ -1,6 +1,5 @@
 package ir.snapp.bimeh.expensetracker.category.api.resources;
 
-import jakarta.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
 
 @Validated

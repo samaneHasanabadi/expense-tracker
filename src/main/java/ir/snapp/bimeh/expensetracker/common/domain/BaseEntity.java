@@ -21,6 +21,7 @@ public abstract class BaseEntity {
         this.createdAt = new Date();
         this.updatedAt = new Date();
     }
+
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = new Date();

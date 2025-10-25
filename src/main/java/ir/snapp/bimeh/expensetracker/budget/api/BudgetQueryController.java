@@ -19,6 +19,7 @@ import java.util.List;
 public class BudgetQueryController {
 
     private final GetBudgetQueryHandler getBudgetQueryHandler;
+
     @GetMapping()
     public ResponseEntity<List<BudgetDTO>> getBudgets(@RequestParam(required = false) Long categoryId,
                                                       @RequestParam(required = false) String categoryType,

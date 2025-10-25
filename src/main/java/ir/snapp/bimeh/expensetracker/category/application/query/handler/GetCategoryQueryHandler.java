@@ -4,7 +4,6 @@ import ir.snapp.bimeh.expensetracker.category.application.dto.CategoryDTO;
 import ir.snapp.bimeh.expensetracker.category.application.dto.CategoryTemplateDTO;
 import ir.snapp.bimeh.expensetracker.category.application.query.GetCategoryQuery;
 import ir.snapp.bimeh.expensetracker.category.application.query.GetCategoryTemplateQuery;
-import ir.snapp.bimeh.expensetracker.category.domain.Category;
 import ir.snapp.bimeh.expensetracker.category.domain.CategoryRepository;
 import ir.snapp.bimeh.expensetracker.category.domain.CategoryTemplateRepository;
 import ir.snapp.bimeh.expensetracker.user.domain.User;

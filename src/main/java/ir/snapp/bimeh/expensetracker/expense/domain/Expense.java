@@ -21,10 +21,10 @@ public class Expense extends BaseEntity {
     @Column(nullable = false)
     private Date issuedDate;
     @ManyToOne
-    @JoinColumn(name= "ownerId", nullable = false)
+    @JoinColumn(name = "ownerId", nullable = false)
     private User owner;
     @ManyToOne
-    @JoinColumn(name= "categoryId")
+    @JoinColumn(name = "categoryId")
     private Category category;
     @Enumerated(EnumType.STRING)
     private PaymentMethod paymentMethod;

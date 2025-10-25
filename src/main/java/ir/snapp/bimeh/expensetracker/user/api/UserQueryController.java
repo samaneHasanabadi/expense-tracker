@@ -4,12 +4,12 @@ import ir.snapp.bimeh.expensetracker.user.api.resources.LoginUserRequest;
 import ir.snapp.bimeh.expensetracker.user.application.query.LoginUserQuery;
 import ir.snapp.bimeh.expensetracker.user.application.query.handler.LoginUserHandler;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.convert.ConversionService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +27,10 @@ public class UserQueryController {
     public ResponseEntity<String> login(@Valid @RequestBody LoginUserRequest request, HttpServletRequest req) {
         LoginUserQuery convert = conversionService.convert(request, LoginUserQuery.class);
         loginUserHandler.handle(convert);
-        
+
         var session = req.getSession(true);
         session.setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-        
+
         return ResponseEntity.ok().body("Login is successful");
     }
 }

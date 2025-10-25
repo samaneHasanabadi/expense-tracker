@@ -11,15 +11,16 @@ import java.util.Date;
 @Validated
 public record CreateExpenseRequest(
 
-    @NotBlank String title,
-    @NotNull
-    @Positive
-    Double amount,
-    @NotNull
-    Date issuedDate,
+        @NotBlank String title,
+        @NotNull
+        @Positive
+        Double amount,
+        @NotNull
+        Date issuedDate,
 
-    Long categoryId,
-    @Pattern(regexp = "CARD|CACHE|TRANSFER|OTHER", message = "payment method must be one of : CARD, CACHE, TRANSFER, OTHER")
-    String paymentMethod,
-    String description
-){}
+        Long categoryId,
+        @Pattern(regexp = "CARD|CACHE|TRANSFER|OTHER", message = "payment method must be one of : CARD, CACHE, TRANSFER, OTHER")
+        String paymentMethod,
+        String description
+) {
+}

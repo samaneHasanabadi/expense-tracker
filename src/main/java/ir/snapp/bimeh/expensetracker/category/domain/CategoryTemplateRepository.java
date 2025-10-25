@@ -6,9 +6,13 @@ import java.util.Optional;
 public interface CategoryTemplateRepository {
 
     Optional<CategoryTemplate> findByName(String name);
+
     Optional<CategoryTemplate> findById(Long id);
+
     Optional<CategoryTemplate> findByType(CategoryType type);
+
     CategoryTemplate save(CategoryTemplate categoryTemplate);
+
     long count();
 
     List<CategoryTemplate> findAll();

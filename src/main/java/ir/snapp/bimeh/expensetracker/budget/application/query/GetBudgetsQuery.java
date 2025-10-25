@@ -1,13 +1,11 @@
 package ir.snapp.bimeh.expensetracker.budget.application.query;
 
-import java.util.Date;
-
 public record GetBudgetsQuery(
-    Long categoryId,
-    String categoryType,
-    Boolean active,
-    int page,
-    int size
+        Long categoryId,
+        String categoryType,
+        Boolean active,
+        int page,
+        int size
 ) {
     public GetBudgetsQuery {
         if (page < 0) page = 0;

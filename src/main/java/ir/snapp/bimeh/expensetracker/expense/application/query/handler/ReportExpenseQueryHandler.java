@@ -43,6 +43,6 @@ public class ReportExpenseQueryHandler {
         List<ExpenseDateMonthlyComparisonDTO> dailyComparison = expenseRepository.findDailyComparison(currentUser.getId(), currentStartDate, currentEndDate, previousStartDate, previosEndDate);
         Double totalCurrentAmount = expenseRepository.getTotalAmountInDates(currentUser.getId(), currentStartDate, currentEndDate);
         Double totalPreviousAmount = expenseRepository.getTotalAmountInDates(currentUser.getId(), previousStartDate, previosEndDate);
-        return new ExpenseMonthlyComparisonReportDTO(currentUser.getName(), currentYearMonth.getYear(),currentYearMonth.getMonthValue(), previousYearMonth.getYear(), previousYearMonth.getMonthValue(), totalCurrentAmount,totalPreviousAmount, totalCurrentAmount - totalPreviousAmount, byCategoryComparison, byCategoryTypeComparison, dailyComparison);
+        return new ExpenseMonthlyComparisonReportDTO(currentUser.getName(), currentYearMonth.getYear(), currentYearMonth.getMonthValue(), previousYearMonth.getYear(), previousYearMonth.getMonthValue(), totalCurrentAmount, totalPreviousAmount, totalCurrentAmount - totalPreviousAmount, byCategoryComparison, byCategoryTypeComparison, dailyComparison);
     }
 }
