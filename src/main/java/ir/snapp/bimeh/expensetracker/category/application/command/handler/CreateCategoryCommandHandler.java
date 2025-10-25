@@ -2,6 +2,7 @@ package ir.snapp.bimeh.expensetracker.category.application.command.handler;
 
 import ir.snapp.bimeh.expensetracker.category.application.command.CreateCategoryCommand;
 import ir.snapp.bimeh.expensetracker.category.domain.*;
+import ir.snapp.bimeh.expensetracker.common.application.aspect.CurrentUser;
 import ir.snapp.bimeh.expensetracker.common.exception.EntityNotFoundException;
 import ir.snapp.bimeh.expensetracker.common.exception.UnauthorizedCategoryAccessException;
 import ir.snapp.bimeh.expensetracker.user.domain.User;
@@ -18,11 +19,9 @@ public class CreateCategoryCommandHandler {
 
     private final CategoryRepository categoryRepository;
     private final CategoryTemplateRepository categoryTemplateRepository;
-    private final AuthenticatedUserProvider authenticatedUserProvider;
 
     @Transactional
-    public void handle(CreateCategoryCommand command) throws AccessDeniedException {
-        User currentUser = authenticatedUserProvider.getCurrentUser();
+    public void handle(CreateCategoryCommand command, @CurrentUser User currentUser) throws AccessDeniedException {
         Category category = new Category();
         category.setOwner(currentUser);
         category.setName(command.name());

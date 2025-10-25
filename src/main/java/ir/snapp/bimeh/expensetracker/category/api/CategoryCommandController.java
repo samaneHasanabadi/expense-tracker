@@ -29,7 +29,7 @@ public class CategoryCommandController {
     @PostMapping("/create")
     public ResponseEntity<String> createCategory(@Valid @RequestBody CreateCategoryRequest request) throws AccessDeniedException {
         CreateCategoryCommand command = conversionService.convert(request, CreateCategoryCommand.class);
-        createCategoryCommandHandler.handle(command);
+        createCategoryCommandHandler.handle(command, null);
         return ResponseEntity.status(HttpStatus.CREATED).body("Category is created successfully!");
     }
 
