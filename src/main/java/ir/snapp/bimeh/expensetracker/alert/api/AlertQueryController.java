@@ -21,12 +21,12 @@ public class AlertQueryController {
     private final GetAlertQueryHandler getAlertQueryHandler;
 
     @GetMapping()
-    public ResponseEntity<List<AlertDTO>> getBudgets(@RequestParam(required = false) Long categoryId,
-                                                     @RequestParam(required = false) String categoryType,
-                                                     @RequestParam(required = false) Boolean active,
-                                                     @RequestParam(required = false) Boolean triggered,
-                                                     @RequestParam(defaultValue = "0") int page,
-                                                     @RequestParam(defaultValue = "10") int size) throws AccessDeniedException {
+    public ResponseEntity<List<AlertDTO>> getAlerts(@RequestParam(required = false) Long categoryId,
+                                                    @RequestParam(required = false) String categoryType,
+                                                    @RequestParam(required = false) Boolean active,
+                                                    @RequestParam(required = false) Boolean triggered,
+                                                    @RequestParam(defaultValue = "0") int page,
+                                                    @RequestParam(defaultValue = "10") int size) throws AccessDeniedException {
 
         GetAlertQuery query = new GetAlertQuery(categoryId, categoryType, active, triggered, page, size);
         List<AlertDTO> budgets = getAlertQueryHandler.handle(query);
