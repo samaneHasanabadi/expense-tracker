@@ -1,16 +1,16 @@
 package ir.snapp.bimeh.expensetracker.expense.api;
 
 import ir.snapp.bimeh.expensetracker.expense.application.dto.ExpenseDTO;
+import ir.snapp.bimeh.expensetracker.expense.application.dto.ExpenseMonthlyReportDTO;
 import ir.snapp.bimeh.expensetracker.expense.application.query.GetExpensesQuery;
 import ir.snapp.bimeh.expensetracker.expense.application.query.handler.GetExpenseQueryHandler;
+import ir.snapp.bimeh.expensetracker.expense.application.query.handler.ReportExpenseQueryHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
+import java.time.YearMonth;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +20,7 @@ import java.util.List;
 public class ExpenseQueryController {
 
     private final GetExpenseQueryHandler getExpenseQueryHandler;
+    private final ReportExpenseQueryHandler reportExpenseQueryHandler;
 
     @GetMapping()
     public ResponseEntity<List<ExpenseDTO>> getExpenses(@RequestParam(required = false) Date fromDate,
@@ -34,5 +35,10 @@ public class ExpenseQueryController {
         List<ExpenseDTO> expenses = getExpenseQueryHandler.getExpenses(query);
 
         return ResponseEntity.ok(expenses);
+    }
+
+    @GetMapping("/report/monthly/{yearMonth}")
+    public ResponseEntity<ExpenseMonthlyReportDTO> generateMonthlyReportByCategory(@PathVariable YearMonth yearMonth) throws AccessDeniedException {
+        return ResponseEntity.ok(reportExpenseQueryHandler.generateMonthlyReportByCategory(yearMonth));
     }
 }
