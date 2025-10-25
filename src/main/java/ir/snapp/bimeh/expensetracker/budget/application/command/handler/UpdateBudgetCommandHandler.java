@@ -5,6 +5,7 @@ import ir.snapp.bimeh.expensetracker.budget.domain.Budget;
 import ir.snapp.bimeh.expensetracker.budget.domain.BudgetRepository;
 import ir.snapp.bimeh.expensetracker.category.domain.Category;
 import ir.snapp.bimeh.expensetracker.category.domain.CategoryRepository;
+import ir.snapp.bimeh.expensetracker.common.exception.ActiveBudgetIsAlreadyExistsException;
 import ir.snapp.bimeh.expensetracker.common.exception.EntityNotFoundException;
 import ir.snapp.bimeh.expensetracker.common.exception.UnauthorizedCategoryAccessException;
 import ir.snapp.bimeh.expensetracker.user.domain.User;
@@ -14,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.AccessDeniedException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -36,6 +38,10 @@ public class UpdateBudgetCommandHandler {
             budget.setCategory(category);
         } else
             budget.setCategory(null);
+
+        Optional<Budget> exist = budgetRepository.findByCategoryAndActive(budget.getCategory(), true);
+        if (exist.isPresent() && exist.get().getId().equals(id))
+            throw new ActiveBudgetIsAlreadyExistsException(exist.get());
 
         budget.setUser(currentUser);
         budget.setMonthlyLimit(command.monthlyLimit());

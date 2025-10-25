@@ -1,8 +1,10 @@
 package ir.snapp.bimeh.expensetracker.budget.domain;
 
+import ir.snapp.bimeh.expensetracker.category.domain.Category;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface BudgetRepository {
@@ -14,5 +16,7 @@ public interface BudgetRepository {
     void deleteById(Long budgetId);
 
     Page<Budget> findAll(Pageable page);
+
+    Optional<Budget> findByCategoryAndActive(Category category, Boolean active);
 
 }

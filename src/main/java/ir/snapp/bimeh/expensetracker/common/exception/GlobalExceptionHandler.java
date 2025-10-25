@@ -56,6 +56,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
 
+    @ExceptionHandler(ActiveBudgetIsAlreadyExistsException.class)
+    public ResponseEntity<ErrorResponse> handleActiveBudgetIsAlreadyExistsException(ActiveBudgetIsAlreadyExistsException ex) {
+        ErrorResponse error = new ErrorResponse(
+                "ACTIVE_BUDGET_DUPLICATION",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(error);
+    }
+
     @ExceptionHandler(AccessDeniedException.class)
     public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException ex) {
         ErrorResponse error = new ErrorResponse(
