@@ -34,8 +34,9 @@ public class CreateCategoryCommandHandler {
 
         if (command.parentId() != null) {
             Category parent = categoryRepository.findById(command.parentId()).orElseThrow(() -> new CategoryNotFoundException(command.parentId()));
-            if (parent.getOwner().getId().equals(currentUser.getId()))
+            if (!parent.getOwner().getId().equals(currentUser.getId()))
                 throw new UnauthorizedCategoryAccessException(command.parentId());
+            category.setParent(parent);
         }
 
         if (command.templateId() != null)
