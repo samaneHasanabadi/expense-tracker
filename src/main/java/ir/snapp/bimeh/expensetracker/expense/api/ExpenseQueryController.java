@@ -1,6 +1,7 @@
 package ir.snapp.bimeh.expensetracker.expense.api;
 
 import ir.snapp.bimeh.expensetracker.expense.application.dto.ExpenseDTO;
+import ir.snapp.bimeh.expensetracker.expense.application.dto.ExpenseMonthlyComparisonReportDTO;
 import ir.snapp.bimeh.expensetracker.expense.application.dto.ExpenseMonthlyReportDTO;
 import ir.snapp.bimeh.expensetracker.expense.application.query.GetExpensesQuery;
 import ir.snapp.bimeh.expensetracker.expense.application.query.handler.GetExpenseQueryHandler;
@@ -38,7 +39,13 @@ public class ExpenseQueryController {
     }
 
     @GetMapping("/report/monthly/{yearMonth}")
-    public ResponseEntity<ExpenseMonthlyReportDTO> generateMonthlyReportByCategory(@PathVariable YearMonth yearMonth) throws AccessDeniedException {
-        return ResponseEntity.ok(reportExpenseQueryHandler.generateMonthlyReportByCategory(yearMonth));
+    public ResponseEntity<ExpenseMonthlyReportDTO> generateMonthlyReport(@PathVariable YearMonth yearMonth) throws AccessDeniedException {
+        return ResponseEntity.ok(reportExpenseQueryHandler.generateMonthlyReport(yearMonth));
+    }
+
+    @GetMapping("/report/monthly/comparison")
+    public ResponseEntity<ExpenseMonthlyComparisonReportDTO> generateMonthlyComparisonReport(@RequestParam() YearMonth current,
+                                                                                             @RequestParam() YearMonth previous) throws AccessDeniedException {
+        return ResponseEntity.ok(reportExpenseQueryHandler.generateMonthlyComparisonReport(current, previous));
     }
 }

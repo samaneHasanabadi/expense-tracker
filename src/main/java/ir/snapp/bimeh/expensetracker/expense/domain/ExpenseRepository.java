@@ -1,8 +1,6 @@
 package ir.snapp.bimeh.expensetracker.expense.domain;
 
-import ir.snapp.bimeh.expensetracker.expense.application.dto.ExpenseCategoryReportDTO;
-import ir.snapp.bimeh.expensetracker.expense.application.dto.ExpenseCategoryTypeReportDTO;
-import ir.snapp.bimeh.expensetracker.expense.application.dto.ExpenseDateReportDTO;
+import ir.snapp.bimeh.expensetracker.expense.application.dto.*;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -27,5 +25,12 @@ public interface ExpenseRepository {
 
     List<ExpenseDateReportDTO> getExpensesGroupByDailyInDates(Long ownerId, Date start, Date end);
 
-    Double totalAmountInDates(Long ownerId, Date start, Date end);
+    Double getTotalAmountInDates(Long ownerId, Date start, Date end);
+
+    List<ExpenseCategoryMonthlyComparisonDTO> findCategoryMonthlyComparison(Long ownerId, Date currentStart, Date currentEnd, Date previousStart, Date previousEnd);
+
+    List<ExpenseCategoryTypeMonthlyComparisonDTO> findCategoryTypeMonthlyComparison(Long ownerId, Date currentStart, Date currentEnd, Date previousStart, Date previousEnd);
+
+    List<ExpenseDateMonthlyComparisonDTO> findDailyComparison(Long ownerId, Date currentStart, Date currentEnd, Date previousStart, Date previousEnd);
+
 }
