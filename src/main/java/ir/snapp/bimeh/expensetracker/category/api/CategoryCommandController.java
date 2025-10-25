@@ -5,6 +5,7 @@ import ir.snapp.bimeh.expensetracker.category.api.resources.UpdateCategoryReques
 import ir.snapp.bimeh.expensetracker.category.application.command.CreateCategoryCommand;
 import ir.snapp.bimeh.expensetracker.category.application.command.UpdateCategoryCommand;
 import ir.snapp.bimeh.expensetracker.category.application.command.handler.CreateCategoryCommandHandler;
+import ir.snapp.bimeh.expensetracker.category.application.command.handler.DeleteCategoryCommandHandler;
 import ir.snapp.bimeh.expensetracker.category.application.command.handler.UpdateCategoryCommandHandler;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ public class CategoryCommandController {
     private final ConversionService conversionService;
     private final CreateCategoryCommandHandler createCategoryCommandHandler;
     private final UpdateCategoryCommandHandler updateCategoryCommandHandler;
+    private final DeleteCategoryCommandHandler deleteCategoryCommandHandler;
 
     @PostMapping("/create")
     public ResponseEntity<String> createCategory(@Valid @RequestBody CreateCategoryRequest request) throws AccessDeniedException {
@@ -36,5 +38,11 @@ public class CategoryCommandController {
         UpdateCategoryCommand command = conversionService.convert(request, UpdateCategoryCommand.class);
         updateCategoryCommandHandler.handle(id, command);
         return ResponseEntity.status(HttpStatus.OK).body("Category is updated successfully!");
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable Long id) throws AccessDeniedException {
+        deleteCategoryCommandHandler.handle(id);
+        return ResponseEntity.status(HttpStatus.OK).body("Category is deleted successfully!");
     }
 }
