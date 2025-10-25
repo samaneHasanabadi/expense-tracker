@@ -1,6 +1,8 @@
 package ir.snapp.bimeh.expensetracker.category.api;
 
+import ir.snapp.bimeh.expensetracker.category.application.dto.CategoryDTO;
 import ir.snapp.bimeh.expensetracker.category.application.dto.CategoryTemplateDTO;
+import ir.snapp.bimeh.expensetracker.category.application.query.GetCategoryQuery;
 import ir.snapp.bimeh.expensetracker.category.application.query.GetCategoryTemplateQuery;
 import ir.snapp.bimeh.expensetracker.category.application.query.handler.GetCategoryQueryHandler;
 import lombok.RequiredArgsConstructor;
@@ -20,13 +22,21 @@ public class CategoryQueryController {
 
     private final GetCategoryQueryHandler getCategoryQueryHandler;
 
-    @GetMapping()
-    public ResponseEntity<List<CategoryTemplateDTO>> getcategoryTemplates(@RequestParam(required = false) String name,
-                                                        @RequestParam(required = false) String type) throws AccessDeniedException {
-
+    @GetMapping("/template")
+    public ResponseEntity<List<CategoryTemplateDTO>> getCategoryTemplates(@RequestParam(required = false) String name,
+                                                                          @RequestParam(required = false) String type) {
         GetCategoryTemplateQuery query = new GetCategoryTemplateQuery(name, type);
         List<CategoryTemplateDTO> expenses = getCategoryQueryHandler.getCategoryTemplates(query);
+        return ResponseEntity.ok(expenses);
+    }
 
+    @GetMapping()
+    public ResponseEntity<List<CategoryDTO>> getCategories(@RequestParam(required = false) Long id,
+                                                           @RequestParam(required = false) String name,
+                                                           @RequestParam(required = false) String type,
+                                                           @RequestParam(required = false) Long parentId) throws AccessDeniedException {
+        GetCategoryQuery query = new GetCategoryQuery(id, name, type, parentId);
+        List<CategoryDTO> expenses = getCategoryQueryHandler.getCategories(query);
         return ResponseEntity.ok(expenses);
     }
 }

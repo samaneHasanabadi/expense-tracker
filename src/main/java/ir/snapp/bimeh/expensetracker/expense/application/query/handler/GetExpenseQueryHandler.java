@@ -25,7 +25,7 @@ public class GetExpenseQueryHandler {
         Pageable pageable = PageRequest.of(query.page(), query.size());
         return expenseRepository.findAll(pageable).stream()
                 .filter(e -> e.getOwner().getId().equals(currentUser.getId()))
-                .filter(e -> query.categoryId() == null || e.getCategory().matchesCategoryInHierarchy(query.categoryId()))
+                .filter(e -> query.categoryId() == null || e.getCategory().matchesCategoryInHierarchy(query.categoryId(), true))
                 .filter(e -> query.categoryType() == null || e.getCategory().matchesTypeInHierarchy(query.categoryType()))
                 .filter(e -> query.toDate() == null || e.getIssuedDate().before(query.toDate()))
                 .filter(e -> query.fromDate() == null || e.getIssuedDate().after(query.fromDate()))
@@ -34,10 +34,4 @@ public class GetExpenseQueryHandler {
                 .collect(Collectors.toList());
     }
 
-//    public List<ExpenseResponse> getExpensesByDateRange(LocalDate fromDate, LocalDate toDate) throws AccessDeniedException {
-//        var currentUser = authenticatedUserProvider.getCurrentUser();
-//
-//        // Implementation would go here
-//        return List.of();
-//    }
 }

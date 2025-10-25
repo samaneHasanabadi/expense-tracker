@@ -74,8 +74,8 @@ public class Category extends BaseEntity {
         return false;
     }
 
-    public boolean matchesCategoryInHierarchy(Long categoryId) {
-        if (this.getId().equals(categoryId))
+    public boolean matchesCategoryInHierarchy(Long categoryId, Boolean includeThis) {
+        if (includeThis && this.getId().equals(categoryId))
             return true;
 
         Category parent = this.parent;
