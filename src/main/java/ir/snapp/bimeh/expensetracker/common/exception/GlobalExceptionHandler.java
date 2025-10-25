@@ -85,6 +85,15 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
     }
 
+    @ExceptionHandler(InvalidCategoryHierarchyException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidCategoryHierarchyException(InvalidCategoryHierarchyException ex) {
+        ErrorResponse error = new ErrorResponse(
+                "INVALID_CATEGORY_HIERARCHY",
+                ex.getMessage(),
+                LocalDateTime.now()
+        );
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+    }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorResponse> handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();

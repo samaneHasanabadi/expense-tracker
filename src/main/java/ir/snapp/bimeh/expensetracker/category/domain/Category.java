@@ -1,6 +1,7 @@
 package ir.snapp.bimeh.expensetracker.category.domain;
 
 import ir.snapp.bimeh.expensetracker.common.domain.BaseEntity;
+import ir.snapp.bimeh.expensetracker.common.exception.InvalidCategoryHierarchyException;
 import ir.snapp.bimeh.expensetracker.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -32,6 +33,24 @@ public class Category extends BaseEntity {
     private String description;
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Category> subCategories = new HashSet<>();
+
+    public void setParent(Category parent) {
+        if (this.equals(parent)) {
+            throw new InvalidCategoryHierarchyException("A category cannot be its own parent");
+        }
+        if (parent != null && parent.hasAncestor(this)) {
+            throw new InvalidCategoryHierarchyException("Circular category hierarchy detected");
+        }
+        this.parent = parent;
+    }
+
+    public boolean hasAncestor(Category category) {
+        if (parent == null)
+            return false;
+        if (parent.equals(category))
+            return true;
+        return parent.hasAncestor(category);
+    }
 
     public void assignTemplateFromParent() {
         if (parent != null && (template == null || template.getType().equals(CategoryType.OTHER))) {
