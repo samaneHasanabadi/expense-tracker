@@ -28,9 +28,25 @@ spring:
     redis:
       host: localhost
       port: 6379
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+    consumer:
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: '*'
+    listener:
+      concurrency: 1
 
 server:
   shutdown: immediate
   port: 8080
   servlet:
     context-path: /expense-tracker/
+app:
+  alert:
+    scheduler-creating: 0 0 15 * * *
+    scheduler-publishing: 0 0 16 * * *

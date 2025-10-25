@@ -16,7 +16,7 @@ public interface AlertRepository {
 
     Optional<Alert> findById(Long id);
 
-    List<Alert> findTop100ByStatus(AlertStatus status);
+    List<Alert> findTop100ByStatusAndActive(AlertStatus status, Boolean active);
 
     void deactivateAlerts(AlertStatus status, User user, Category category);
 }

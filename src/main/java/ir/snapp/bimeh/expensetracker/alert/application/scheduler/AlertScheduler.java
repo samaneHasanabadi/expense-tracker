@@ -29,7 +29,7 @@ public class AlertScheduler {
     private final AlertRepository alertRepository;
     private final UserRepository userRepository;
 
-    @Scheduled(cron = "${app.alert.scheduler-timing}")
+    @Scheduled(cron = "${app.alert.scheduler-creating}")
     public void createAlert() {
         userRepository.findAll().forEach(user -> {
             List<Budget> budgetList = budgetRepository.findByUserAndActive(user, true);
