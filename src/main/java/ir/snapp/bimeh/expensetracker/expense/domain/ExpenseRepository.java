@@ -27,6 +27,8 @@ public interface ExpenseRepository {
 
     Double getTotalAmountInDates(Long ownerId, Date start, Date end);
 
+    Double getTotalAmountByCategoryInDates(Long ownerId, List<Long> categoryIdList, Date start, Date end);
+
     List<ExpenseCategoryMonthlyComparisonDTO> findCategoryMonthlyComparison(Long ownerId, Date currentStart, Date currentEnd, Date previousStart, Date previousEnd);
 
     List<ExpenseCategoryTypeMonthlyComparisonDTO> findCategoryTypeMonthlyComparison(Long ownerId, Date currentStart, Date currentEnd, Date previousStart, Date previousEnd);

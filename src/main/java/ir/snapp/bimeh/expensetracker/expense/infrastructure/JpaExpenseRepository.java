@@ -32,6 +32,10 @@ public interface JpaExpenseRepository extends ExpenseRepository, JpaRepository<E
             "where e.owner.id = :ownerId and e.issuedDate between :start and :end")
     Double getTotalAmountInDates(Long ownerId, Date start, Date end);
 
+    @Query("select sum(e.amount) from Expense e " +
+            "where e.owner.id = :ownerId and e.category.id in :categoryIdList and e.issuedDate between :start and :end")
+    Double getTotalAmountByCategoryInDates(Long ownerId, List<Long> categoryIdList, Date start, Date end);
+
     @Query("select new ir.snapp.bimeh.expensetracker.expense.application.dto.ExpenseCategoryMonthlyComparisonDTO" +
             "(e.category.id, e.category.name, e.category.type, " +
             "sum(case when e.issuedDate between :currentStart and :currentEnd then e.amount else 0l end), " +
