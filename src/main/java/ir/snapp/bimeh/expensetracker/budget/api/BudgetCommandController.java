@@ -4,6 +4,7 @@ import ir.snapp.bimeh.expensetracker.budget.api.resources.CreateBudgetRequest;
 import ir.snapp.bimeh.expensetracker.budget.api.resources.UpdateBudgetRequest;
 import ir.snapp.bimeh.expensetracker.budget.application.command.CreateBudgetCommand;
 import ir.snapp.bimeh.expensetracker.budget.application.command.UpdateBudgetCommand;
+import ir.snapp.bimeh.expensetracker.budget.application.command.handler.ActiveInActiveBudgetCommandHandler;
 import ir.snapp.bimeh.expensetracker.budget.application.command.handler.CreateBudgetCommandHandler;
 import ir.snapp.bimeh.expensetracker.budget.application.command.handler.DeleteBudgetCommandHandler;
 import ir.snapp.bimeh.expensetracker.budget.application.command.handler.UpdateBudgetCommandHandler;
@@ -25,6 +26,7 @@ public class BudgetCommandController {
     private final CreateBudgetCommandHandler createBudgetCommandHandler;
     private final UpdateBudgetCommandHandler updateBudgetCommandHandler;
     private final DeleteBudgetCommandHandler deleteBudgetCommandHandler;
+    private final ActiveInActiveBudgetCommandHandler activeInActiveBudgetCommandHandler;
 
     @PostMapping("/create")
     public ResponseEntity<String> createBudget(@Valid @RequestBody CreateBudgetRequest request) throws AccessDeniedException {
@@ -44,5 +46,17 @@ public class BudgetCommandController {
     public ResponseEntity<String> deleteBudget(@PathVariable Long id) throws AccessDeniedException {
         deleteBudgetCommandHandler.handle(id);
         return ResponseEntity.ok().body("Budget is deleted successfully!");
+    }
+
+    @PatchMapping("/activate/{id}")
+    public ResponseEntity<String> activateBudget(@PathVariable Long id) throws AccessDeniedException {
+        activeInActiveBudgetCommandHandler.activate(id);
+        return ResponseEntity.ok().body("Budget is activated successfully!");
+    }
+
+    @PatchMapping("/deactivate/{id}")
+    public ResponseEntity<String> deactivateBudget(@PathVariable Long id) throws AccessDeniedException {
+        activeInActiveBudgetCommandHandler.deactivate(id);
+        return ResponseEntity.ok().body("Budget is deactivated successfully!");
     }
 }
