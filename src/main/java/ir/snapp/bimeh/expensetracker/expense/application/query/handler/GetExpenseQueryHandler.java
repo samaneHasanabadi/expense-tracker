@@ -25,8 +25,8 @@ public class GetExpenseQueryHandler {
         Pageable pageable = PageRequest.of(query.page(), query.size());
         return expenseRepository.findAll(pageable).stream()
                 .filter(e -> e.getOwner().getId().equals(currentUser.getId()))
-                .filter(e -> query.categoryId() == null || e.getCategory().matchesCategoryInHierarchy(query.categoryId(), true))
-                .filter(e -> query.categoryType() == null || e.getCategory().matchesTypeInHierarchy(query.categoryType()))
+                .filter(e -> query.categoryId() == null || e.getCategory() != null && e.getCategory().matchesCategoryInHierarchy(query.categoryId(), true))
+                .filter(e -> query.categoryType() == null || e.getCategory() != null && e.getCategory().matchesTypeInHierarchy(query.categoryType()))
                 .filter(e -> query.toDate() == null || e.getIssuedDate().before(query.toDate()))
                 .filter(e -> query.fromDate() == null || e.getIssuedDate().after(query.fromDate()))
                 .map(e -> new ExpenseDTO(e.getId(), e.getTitle(), e.getAmount(),
