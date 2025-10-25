@@ -8,6 +8,7 @@ import ir.snapp.bimeh.expensetracker.category.domain.CategoryRepository;
 import ir.snapp.bimeh.expensetracker.common.exception.EntityNotFoundException;
 import ir.snapp.bimeh.expensetracker.user.domain.User;
 import ir.snapp.bimeh.expensetracker.user.infrastructure.security.AuthenticatedUserProvider;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,7 @@ public class CreateBudgetCommandHandler {
     private final CategoryRepository categoryRepository;
     private final AuthenticatedUserProvider authenticatedUserProvider;
 
+    @Transactional
     public void handle(CreateBudgetCommand command) throws AccessDeniedException {
         User currentUser = authenticatedUserProvider.getCurrentUser();
         Budget budget = new Budget();
