@@ -1,6 +1,6 @@
 package ir.snapp.bimeh.expensetracker.expense.application.command.handler;
 
-import ir.snapp.bimeh.expensetracker.common.exception.ExpenseNotFoundException;
+import ir.snapp.bimeh.expensetracker.common.exception.EntityNotFoundException;
 import ir.snapp.bimeh.expensetracker.common.exception.UnauthorizedExpenseAccessException;
 import ir.snapp.bimeh.expensetracker.expense.domain.Expense;
 import ir.snapp.bimeh.expensetracker.expense.domain.ExpenseRepository;
@@ -22,7 +22,7 @@ public class DeleteExpenseCommandHandler {
     @Transactional
     public void handle(Long expenseId) throws AccessDeniedException {
         Expense expense = expenseRepository.findById(expenseId)
-                .orElseThrow(() -> new ExpenseNotFoundException(expenseId));
+                .orElseThrow(() -> new EntityNotFoundException(Expense.class.getSimpleName(), expenseId));
         User currentUser = authenticatedUserProvider.getCurrentUser();
         if (!expense.getOwner().getId().equals(currentUser.getId())) {
             throw new UnauthorizedExpenseAccessException(expenseId);

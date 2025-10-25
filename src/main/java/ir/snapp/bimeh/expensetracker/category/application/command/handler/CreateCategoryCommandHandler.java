@@ -1,12 +1,8 @@
 package ir.snapp.bimeh.expensetracker.category.application.command.handler;
 
 import ir.snapp.bimeh.expensetracker.category.application.command.CreateCategoryCommand;
-import ir.snapp.bimeh.expensetracker.category.domain.Category;
-import ir.snapp.bimeh.expensetracker.category.domain.CategoryRepository;
-import ir.snapp.bimeh.expensetracker.category.domain.CategoryTemplateRepository;
-import ir.snapp.bimeh.expensetracker.category.domain.CategoryType;
-import ir.snapp.bimeh.expensetracker.common.exception.CategoryNotFoundException;
-import ir.snapp.bimeh.expensetracker.common.exception.CategoryTemplateNotFoundException;
+import ir.snapp.bimeh.expensetracker.category.domain.*;
+import ir.snapp.bimeh.expensetracker.common.exception.EntityNotFoundException;
 import ir.snapp.bimeh.expensetracker.common.exception.UnauthorizedCategoryAccessException;
 import ir.snapp.bimeh.expensetracker.user.domain.User;
 import ir.snapp.bimeh.expensetracker.user.infrastructure.security.AuthenticatedUserProvider;
@@ -33,14 +29,14 @@ public class CreateCategoryCommandHandler {
         category.setDescription(command.description());
 
         if (command.parentId() != null) {
-            Category parent = categoryRepository.findById(command.parentId()).orElseThrow(() -> new CategoryNotFoundException(command.parentId()));
+            Category parent = categoryRepository.findById(command.parentId()).orElseThrow(() -> new EntityNotFoundException(Category.class.getSimpleName(), command.parentId()));
             if (!parent.getOwner().getId().equals(currentUser.getId()))
                 throw new UnauthorizedCategoryAccessException(command.parentId());
             category.setParent(parent);
         }
 
         if (command.templateId() != null)
-            category.setTemplate(categoryTemplateRepository.findById(command.templateId()).orElseThrow(() -> new CategoryTemplateNotFoundException(command.templateId())));
+            category.setTemplate(categoryTemplateRepository.findById(command.templateId()).orElseThrow(() -> new EntityNotFoundException(CategoryTemplate.class.getSimpleName(), command.templateId())));
 
         if (category.getTemplate() == null)
             category.setTemplate(categoryTemplateRepository.findByType(CategoryType.OTHER).orElse(null));

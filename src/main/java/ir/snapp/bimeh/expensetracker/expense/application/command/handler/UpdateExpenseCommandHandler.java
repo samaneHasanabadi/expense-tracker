@@ -1,8 +1,8 @@
 package ir.snapp.bimeh.expensetracker.expense.application.command.handler;
 
+import ir.snapp.bimeh.expensetracker.category.domain.Category;
 import ir.snapp.bimeh.expensetracker.category.domain.CategoryRepository;
-import ir.snapp.bimeh.expensetracker.common.exception.CategoryNotFoundException;
-import ir.snapp.bimeh.expensetracker.common.exception.ExpenseNotFoundException;
+import ir.snapp.bimeh.expensetracker.common.exception.EntityNotFoundException;
 import ir.snapp.bimeh.expensetracker.common.exception.UnauthorizedExpenseAccessException;
 import ir.snapp.bimeh.expensetracker.expense.application.command.UpdateExpenseCommand;
 import ir.snapp.bimeh.expensetracker.expense.domain.Expense;
@@ -27,7 +27,7 @@ public class UpdateExpenseCommandHandler {
     @Transactional
     public void handle(Long expenseId, UpdateExpenseCommand command) throws AccessDeniedException {
         Expense expense = expenseRepository.findById(expenseId)
-                .orElseThrow(() -> new ExpenseNotFoundException(expenseId));
+                .orElseThrow(() -> new EntityNotFoundException(Expense.class.getSimpleName(), expenseId));
         User currentUser = authenticatedUserProvider.getCurrentUser();
         if (!expense.getOwner().getId().equals(currentUser.getId()))
             throw new UnauthorizedExpenseAccessException(expenseId);
@@ -55,7 +55,7 @@ public class UpdateExpenseCommandHandler {
 
         if (command.categoryId() != null)
             expense.setCategory(categoryRepository.findById(command.categoryId())
-                    .orElseThrow(() -> new CategoryNotFoundException(command.categoryId())));
+                    .orElseThrow(() -> new EntityNotFoundException(Category.class.getSimpleName(), command.categoryId())));
         expenseRepository.save(expense);
     }
 }

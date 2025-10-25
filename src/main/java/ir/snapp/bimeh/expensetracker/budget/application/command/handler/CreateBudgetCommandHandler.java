@@ -5,7 +5,7 @@ import ir.snapp.bimeh.expensetracker.budget.domain.Budget;
 import ir.snapp.bimeh.expensetracker.budget.domain.BudgetRepository;
 import ir.snapp.bimeh.expensetracker.category.domain.Category;
 import ir.snapp.bimeh.expensetracker.category.domain.CategoryRepository;
-import ir.snapp.bimeh.expensetracker.common.exception.CategoryNotFoundException;
+import ir.snapp.bimeh.expensetracker.common.exception.EntityNotFoundException;
 import ir.snapp.bimeh.expensetracker.user.domain.User;
 import ir.snapp.bimeh.expensetracker.user.infrastructure.security.AuthenticatedUserProvider;
 import lombok.RequiredArgsConstructor;
@@ -26,7 +26,7 @@ public class CreateBudgetCommandHandler {
         Budget budget = new Budget();
 
         if (command.categoryId() != null) {
-            Category category = categoryRepository.findById(command.categoryId()).orElseThrow(() -> new CategoryNotFoundException(command.categoryId()));
+            Category category = categoryRepository.findById(command.categoryId()).orElseThrow(() -> new EntityNotFoundException(Category.class.getSimpleName(), command.categoryId()));
             budget.setCategory(category);
         }
         budget.setUser(currentUser);

@@ -26,25 +26,16 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(error);
     }
 
-    @ExceptionHandler(CategoryNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleCategoryNotFoundException(CategoryNotFoundException ex) {
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleCategoryNotFoundException(EntityNotFoundException ex) {
         ErrorResponse error = new ErrorResponse(
-                "CATEGORY_NOT_FOUND",
+                "ENTITY_NOT_FOUND",
                 ex.getMessage(),
                 LocalDateTime.now()
         );
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
-    @ExceptionHandler(CategoryTemplateNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleCategoryNotFoundException(CategoryTemplateNotFoundException ex) {
-        ErrorResponse error = new ErrorResponse(
-                "CATEGORY_TEMPLATE_NOT_FOUND",
-                ex.getMessage(),
-                LocalDateTime.now()
-        );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
-    }
     @ExceptionHandler(UsernameAlreadyExistsException.class)
     public ResponseEntity<ErrorResponse> handleUsernameAlreadyExistsException(UsernameAlreadyExistsException ex) {
         ErrorResponse error = new ErrorResponse(
@@ -63,16 +54,6 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(error);
-    }
-
-    @ExceptionHandler(ExpenseNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleExpenseNotFoundException(ExpenseNotFoundException ex) {
-        ErrorResponse error = new ErrorResponse(
-                "EXPENSE_NOT_FOUND",
-                ex.getMessage(),
-                LocalDateTime.now()
-        );
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
@@ -123,7 +104,10 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
 
-    public record ErrorResponse(String code, String message, LocalDateTime timestamp) {}
-    
-    public record ValidationErrorResponse(String code, String message, LocalDateTime timestamp, Map<String, String> fieldErrors) {}
+    public record ErrorResponse(String code, String message, LocalDateTime timestamp) {
+    }
+
+    public record ValidationErrorResponse(String code, String message, LocalDateTime timestamp,
+                                          Map<String, String> fieldErrors) {
+    }
 }

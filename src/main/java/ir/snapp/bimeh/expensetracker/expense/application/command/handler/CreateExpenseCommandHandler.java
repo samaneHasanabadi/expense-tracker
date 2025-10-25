@@ -1,6 +1,8 @@
 package ir.snapp.bimeh.expensetracker.expense.application.command.handler;
 
+import ir.snapp.bimeh.expensetracker.category.domain.Category;
 import ir.snapp.bimeh.expensetracker.category.domain.CategoryRepository;
+import ir.snapp.bimeh.expensetracker.common.exception.EntityNotFoundException;
 import ir.snapp.bimeh.expensetracker.expense.application.command.CreateExpenseCommand;
 import ir.snapp.bimeh.expensetracker.expense.domain.Expense;
 import ir.snapp.bimeh.expensetracker.expense.domain.ExpenseRepository;
@@ -10,7 +12,6 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import ir.snapp.bimeh.expensetracker.common.exception.CategoryNotFoundException;
 import java.nio.file.AccessDeniedException;
 
 @Service
@@ -29,7 +30,7 @@ public class CreateExpenseCommandHandler {
         if (command.title() == null || command.title().trim().isEmpty()) {
             throw new IllegalArgumentException("Expense title cannot be empty");
         }
-        
+
         Expense expense = new Expense();
         expense.setTitle(command.title());
         expense.setAmount(command.amount());
@@ -39,7 +40,7 @@ public class CreateExpenseCommandHandler {
             expense.setPaymentMethod(PaymentMethod.valueOf(command.paymentMethod()));
         expense.setDescription(command.description());
         if (command.categoryId() != null)
-            expense.setCategory(categoryRepository.findById(command.categoryId()).orElseThrow(() -> new CategoryNotFoundException(command.categoryId())));
+            expense.setCategory(categoryRepository.findById(command.categoryId()).orElseThrow(() -> new EntityNotFoundException(Category.class.getSimpleName(), command.categoryId())));
 
         expenseRepository.save(expense);
     }

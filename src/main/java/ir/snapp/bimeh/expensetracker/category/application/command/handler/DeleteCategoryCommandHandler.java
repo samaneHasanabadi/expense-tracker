@@ -2,7 +2,7 @@ package ir.snapp.bimeh.expensetracker.category.application.command.handler;
 
 import ir.snapp.bimeh.expensetracker.category.domain.Category;
 import ir.snapp.bimeh.expensetracker.category.domain.CategoryRepository;
-import ir.snapp.bimeh.expensetracker.common.exception.CategoryNotFoundException;
+import ir.snapp.bimeh.expensetracker.common.exception.EntityNotFoundException;
 import ir.snapp.bimeh.expensetracker.common.exception.UnauthorizedCategoryAccessException;
 import ir.snapp.bimeh.expensetracker.user.domain.User;
 import ir.snapp.bimeh.expensetracker.user.infrastructure.security.AuthenticatedUserProvider;
@@ -21,7 +21,7 @@ public class DeleteCategoryCommandHandler {
 
     @Transactional
     public void handle(Long id) throws AccessDeniedException {
-        Category category = categoryRepository.findById(id).orElseThrow(() -> new CategoryNotFoundException(id));
+        Category category = categoryRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(Category.class.getSimpleName(), id));
         User currentUser = authenticatedUserProvider.getCurrentUser();
 
         if (!category.getOwner().getId().equals(currentUser.getId()))
