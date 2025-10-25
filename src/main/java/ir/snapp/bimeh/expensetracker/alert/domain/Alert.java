@@ -29,6 +29,7 @@ public class Alert extends BaseEntity {
     private Boolean active;
     private Date lastTriggeredAt;
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private AlertStatus status;
 
 }
